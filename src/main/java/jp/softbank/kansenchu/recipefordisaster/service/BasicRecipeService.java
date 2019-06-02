@@ -25,7 +25,6 @@ public class BasicRecipeService implements RecipeService {
   public List<RecipeDto> getAllRecipes() {
     return repository.findAll(Sort.by("id").ascending())
         .parallelStream()
-        .peek(System.out::println)
         .map(RecipeDao::mapToDto)
         .collect(Collectors.toList());
   }
