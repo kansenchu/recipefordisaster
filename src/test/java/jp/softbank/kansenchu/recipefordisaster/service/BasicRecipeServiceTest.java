@@ -7,10 +7,13 @@ import static org.mockito.ArgumentMatchers.any;
 import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -18,10 +21,14 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import jp.softbank.kansenchu.recipefordisaster.TestObjectRepository;
 import jp.softbank.kansenchu.recipefordisaster.dao.RecipeDao;
+import jp.softbank.kansenchu.recipefordisaster.exception.RecipeNotFoundException;
 import jp.softbank.kansenchu.recipefordisaster.repository.RecipeRepo;
 
 @RunWith(MockitoJUnitRunner.StrictStubs.class)
 public class BasicRecipeServiceTest {
+  
+  @Rule
+  public ExpectedException expectedEx = ExpectedException.none();
   
   @Mock
   private RecipeRepo recipeRepo;
@@ -37,5 +44,18 @@ public class BasicRecipeServiceTest {
   public void getAllRecipes() {
     when(recipeRepo.findAll(any(Sort.class))).thenReturn(TestObjectRepository.allRecipes);
     assertEquals(recipeService.getAllRecipes(), TestObjectRepository.allRecipesDto);
+  }
+  
+  @Test
+  public void getRecipe() {
+    when(recipeRepo.findById(1)).thenReturn(Optional.of(TestObjectRepository.oneRecipeDao));
+    assertEquals(recipeService.getRecipe(1), TestObjectRepository.oneRecipeDto);
+  }
+  
+  @Test
+  public void getNonexistentRecipe() {
+    when(recipeRepo.findById(100)).thenThrow(new RecipeNotFoundException());
+    expectedEx.expect(RecipeNotFoundException.class);
+    recipeService.getRecipe(100);
   }
 }

@@ -14,7 +14,7 @@ import jp.softbank.kansenchu.recipefordisaster.dto.MultiRecipeResponse;
 import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
 
 public class TestObjectRepository {
-  public static RecipeDao oneRecipe = new RecipeDao(
+  public static RecipeDao oneRecipeDao = new RecipeDao(
       1,
       "チキンカレー",
       "45分",
@@ -24,6 +24,7 @@ public class TestObjectRepository {
       new Timestamp(getMillisecondFromDateString("2016-01-10 12:10:12")),
       new Timestamp(getMillisecondFromDateString("2016-01-10 12:10:12"))
   );
+  public static RecipeDto oneRecipeDto = oneRecipeDao.mapToDto();
   
   public static RecipeDao newRecipe = new RecipeDao(
     3,
@@ -37,7 +38,7 @@ public class TestObjectRepository {
   );
   
   public static List<RecipeDao> allRecipes = Arrays.asList(
-      oneRecipe,
+      oneRecipeDao,
       new RecipeDao(
           2,
           "オムライス",
