@@ -1,4 +1,4 @@
-package jp.softbank.kansenchu.dto;
+package jp.softbank.kansenchu.recipefordisaster.dto;
 
 import lombok.RequiredArgsConstructor;
 

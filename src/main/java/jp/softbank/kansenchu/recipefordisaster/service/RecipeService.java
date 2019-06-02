@@ -2,7 +2,7 @@ package jp.softbank.kansenchu.recipefordisaster.service;
 
 import java.util.List;
 
-import jp.softbank.kansenchu.dto.RecipeDto;
+import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
 
 public interface RecipeService {
   /**

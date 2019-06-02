@@ -3,7 +3,7 @@ package jp.softbank.kansenchu.recipefordisaster.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.softbank.kansenchu.dto.RecipeDto;
+import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
 
 public class BasicRecipeService implements RecipeService {
 
