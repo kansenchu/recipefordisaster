@@ -36,4 +36,12 @@ public interface RecipeService {
    * @throws InvalidRecipeException レシピが見つからない時
    */
   public RecipeDto editRecipe(int id, RecipeDto recipeDto);
+  
+  /**
+   * レシピを削除する.
+   * @param id 削除したいレシピID
+   * @return 削除したレシピ
+   * @throws RecipeNotFoundException レシピが見つからない時
+   */
+  public RecipeDto deleteRecipe(int id);
 }

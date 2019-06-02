@@ -1,6 +1,8 @@
 package jp.softbank.kansenchu.recipefordisaster.service;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -83,5 +85,19 @@ public class BasicRecipeServiceTest {
     when(recipeRepo.findById(1)).thenReturn(Optional.empty());
     expectedEx.expect(RecipeNotFoundException.class);
     recipeService.editRecipe(1, TestObjectRepository.newRecipeDto);
+  }
+  
+  @Test
+  public void deleteRecipe() {
+    when(recipeRepo.findById(1)).thenReturn(Optional.of(TestObjectRepository.oneRecipeDao));
+    assertEquals(recipeService.deleteRecipe(1), TestObjectRepository.oneRecipeDto);
+    verify(recipeRepo, times(1)).delete(TestObjectRepository.oneRecipeDao);
+  }
+  
+  @Test
+  public void deleteNonexistentRecipe() {
+    when(recipeRepo.findById(1)).thenReturn(Optional.empty());
+    expectedEx.expect(RecipeNotFoundException.class);
+    recipeService.deleteRecipe(1);
   }
 }

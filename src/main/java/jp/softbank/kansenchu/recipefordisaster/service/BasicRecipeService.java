@@ -96,5 +96,16 @@ public class BasicRecipeService implements RecipeService {
       return repository.save(oldRecipe).mapToDto();
     }).orElseThrow(RecipeNotFoundException::new);
   }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public RecipeDto deleteRecipe(int id) {
+    return repository.findById(id)
+        .map((Function<RecipeDao, RecipeDto>) recipe -> {
+          repository.delete(recipe);
+          return recipe.mapToDto();
+        }).orElseThrow(RecipeNotFoundException::new);
+  }
 
 }
