@@ -100,6 +100,7 @@ public class BasicRecipeController implements RecipeController, RecipeExceptionC
     return new ErrorResponse(ErrorResponse.Message.NOT_FOUND);
   }
 
+  @JsonView(ResponseViews.MessageWithRequired.class)
   @ExceptionHandler(InvalidRecipeException.class)
   @ResponseStatus(HttpStatus.OK)
   public ErrorResponse invalidRecipeHandler(InvalidRecipeException ex) {

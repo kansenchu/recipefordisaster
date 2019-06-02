@@ -10,7 +10,8 @@ import org.springframework.data.domain.Sort;
 
 import java.util.Optional;
 
-import org.hibernate.exception.ConstraintViolationException;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -62,15 +63,8 @@ public class BasicRecipeServiceTest {
   
   @Test
   public void addRecipe() {
-    when(recipeRepo.save(TestObjectRepository.newRecipeDao)).thenReturn(TestObjectRepository.newRecipeDao);
-    assertEquals(recipeService.addRecipe(TestObjectRepository.newRecipeDto), TestObjectRepository.newRecipeDto);
-  }
-  
-  @Test
-  public void addInvalidRecipe() {
-    when(recipeRepo.save(any(RecipeDao.class))).thenThrow(new ConstraintViolationException(null, null, null));
-    expectedEx.expect(InvalidRecipeException.class);
-    recipeService.addRecipe(TestObjectRepository.newRecipeDto);
+    when(recipeRepo.save(TestObjectRepository.newRecipeNoTimestamp)).thenReturn(TestObjectRepository.newRecipeDao);
+    assertEquals(recipeService.addRecipe(TestObjectRepository.newRecipeNoId), TestObjectRepository.newRecipeDto);
   }
   
   @Test

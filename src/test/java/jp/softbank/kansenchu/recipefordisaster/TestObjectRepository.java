@@ -40,6 +40,13 @@ public class TestObjectRepository {
   );
   public static RecipeDto newRecipeDto = newRecipeDao.mapToDto();
   
+  public static RecipeDao newRecipeNoTimestamp = RecipeDao.builder()
+      .title("豚骨ラーメン")
+      .makingTime("8時間")
+      .serves("100人")
+      .ingredients("玉ねぎ,肉,スパイス")
+      .cost("50000")
+      .build();
   public static RecipeDto newRecipeNoId = RecipeDto.builder()
       .title("豚骨ラーメン")
       .makingTime("8時間")
@@ -78,7 +85,8 @@ public class TestObjectRepository {
   
   public static MultiRecipeResponse allRecipesResponse = new MultiRecipeResponse(allRecipesDto);
   public static SuccessResponse getOneResponse = new SuccessResponse(SuccessResponse.Message.RETRIEVED, TestObjectRepository.oneRecipeDto);
-  public static SuccessResponse addOneResponse = new SuccessResponse(SuccessResponse.Message.CREATED, TestObjectRepository.newRecipeNoId);
+  public static SuccessResponse addOneResponse = new SuccessResponse(SuccessResponse.Message.CREATED, TestObjectRepository.newRecipeDto);
+  public static SuccessResponse addOneResponseWithoutId = new SuccessResponse(SuccessResponse.Message.CREATED, TestObjectRepository.newRecipeNoId);
   public static SuccessResponse editedResponse = new SuccessResponse(SuccessResponse.Message.UPDATED, TestObjectRepository.editedRecipeDto);
   public static SuccessResponse deletedResponse = new SuccessResponse(SuccessResponse.Message.DELETED);
   

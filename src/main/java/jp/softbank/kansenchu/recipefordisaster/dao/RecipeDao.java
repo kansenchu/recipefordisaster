@@ -55,7 +55,7 @@ public class RecipeDao {
   @NotNull(message = "cost")
   private String cost;
 
-  /** レシピの作成時間. */
+  /** レシピの作成時間. */ 
   @CreationTimestamp
   @Column(name = "created_at")
   private Timestamp createdAt;

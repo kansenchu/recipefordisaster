@@ -35,6 +35,7 @@ public class ErrorResponse {
   @JsonView(ResponseViews.MessageOnly.class)
   final Message message;
 
+  @JsonView(ResponseViews.MessageWithRequired.class)
   /** 欠けてるパラメータのString. */
   String required;
 

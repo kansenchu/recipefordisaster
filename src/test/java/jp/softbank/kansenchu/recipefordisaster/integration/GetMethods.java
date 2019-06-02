@@ -17,14 +17,17 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 import jp.softbank.kansenchu.recipefordisaster.TestObjectRepository;
 import jp.softbank.kansenchu.recipefordisaster.controller.RecipeController;
+import jp.softbank.kansenchu.recipefordisaster.dto.views.ResponseViews;
 import jp.softbank.kansenchu.recipefordisaster.service.RecipeService;
 
 @RunWith(SpringRunner.class)
@@ -50,6 +53,8 @@ public class GetMethods {
   static MockMvc mockMvc;
   
   ObjectMapper jsonMapper = new ObjectMapper();
+  
+  ObjectWriter jsonWriter = jsonMapper.writerWithView(ResponseViews.MessageOnly.class);
 
   @Before
   public void setup() throws IOException {
@@ -72,12 +77,13 @@ public class GetMethods {
     verify(recipeService).getAllRecipes();
   }
   
+  @Test
   public void getOneRecipe() throws Exception {
     //setup
     int recipeId = 1;
     String requestUrl = String.format(urlTemplate, port, recipeId);
     
-    String expected = jsonMapper.writeValueAsString(TestObjectRepository.getOneResponse);
+    String expected = jsonWriter.writeValueAsString(TestObjectRepository.getOneResponse);
     
     //act
     mockMvc.perform(MockMvcRequestBuilders.get(requestUrl))
@@ -95,14 +101,17 @@ public class GetMethods {
     int recipeId = 999;
     String requestUrl = String.format(urlTemplate, port, recipeId);
 
-    String expected = jsonMapper.writeValueAsString(TestObjectRepository.notFoundResponse);
+    String expected = jsonWriter.writeValueAsString(TestObjectRepository.notFoundResponse);
+    System.out.println(expected);
     
     //act
-    mockMvc.perform(MockMvcRequestBuilders.get(requestUrl))
+    MvcResult res = mockMvc.perform(MockMvcRequestBuilders.get(requestUrl))
         //verify
         .andExpect(status().is(200))
         .andExpect(content().contentType("application/json;charset=UTF-8"))
-        .andExpect(content().json(expected));
+        //.andExpect(content().json(expected))
+        .andReturn();
+    System.out.println(res.getResponse().getContentAsString());
     verify(recipeService).getRecipe(recipeId);
   }
   
