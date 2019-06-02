@@ -15,7 +15,6 @@ import jp.softbank.kansenchu.recipefordisaster.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,7 +68,7 @@ public class BasicRecipeController implements RecipeController, RecipeExceptionC
   }
   
   /**
-   * @{inheritDoc}
+   * {@inheritDoc}
    */
   @JsonView(ResponseViews.MessageWithRecipe.class)
   @PatchMapping(value = "/{id}")
