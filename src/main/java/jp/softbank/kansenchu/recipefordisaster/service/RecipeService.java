@@ -4,7 +4,6 @@ import java.util.List;
 
 import jp.softbank.kansenchu.recipefordisaster.exception.RecipeNotFoundException;
 import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
-import jp.softbank.kansenchu.recipefordisaster.dto.SuccessResponse;
 
 public interface RecipeService {
   /**
@@ -28,4 +27,13 @@ public interface RecipeService {
    * @throws InvalidRecipeException レシピがあっていない時
    */
   public RecipeDto addRecipe(RecipeDto recipeDto);
+  
+  /**
+   * 現在存在してるレシピを更新.
+   * @param id 変えたいレシピ
+   * @param recipeDto 新しい詳細
+   * @return 更新されたレシピ
+   * @throws InvalidRecipeException レシピが見つからない時
+   */
+  public RecipeDto editRecipe(int id, RecipeDto recipeDto);
 }

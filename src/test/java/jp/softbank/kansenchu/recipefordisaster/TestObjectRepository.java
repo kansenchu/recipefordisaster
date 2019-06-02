@@ -56,6 +56,17 @@ public class TestObjectRepository {
   public static List<RecipeDto> allRecipesDto = allRecipes.stream()
       .map(RecipeDao::mapToDto).collect(Collectors.toList());
   
+  public static RecipeDao editedRecipeDao = new RecipeDao(
+      1,
+      "豚骨ラーメン",
+      "8時間",
+      "100人",
+      "玉ねぎ,肉,スパイス",
+      50000,
+      new Timestamp(getMillisecondFromDateString("2016-01-10 12:10:12")),
+      new Timestamp(getMillisecondFromDateString("2016-01-10 12:10:12"))
+  );
+  
   public static MultiRecipeResponse allRecipesResponse = new MultiRecipeResponse(allRecipesDto);
   public static SuccessResponse getOneResponse = new SuccessResponse(SuccessResponse.Message.RETRIEVED, TestObjectRepository.oneRecipeDto);
   public static SuccessResponse addOneResponse = new SuccessResponse(SuccessResponse.Message.CREATED, TestObjectRepository.newRecipeDto);

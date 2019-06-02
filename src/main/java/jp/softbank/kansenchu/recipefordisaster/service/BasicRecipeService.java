@@ -2,6 +2,7 @@ package jp.softbank.kansenchu.recipefordisaster.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -67,9 +68,33 @@ public class BasicRecipeService implements RecipeService {
       if (!missing.isEmpty()) {
         throw new InvalidRecipeException(String.join(",", missing));
       } else {
-        throw ex;
+        throw new InvalidRecipeException();
       }
     }
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public RecipeDto editRecipe(int id, RecipeDto recipeDto) {
+    return repository.findById(id).map((Function<RecipeDao, RecipeDto>) oldRecipe -> {
+      if (recipeDto.getTitle() != null) {
+        oldRecipe.setTitle(recipeDto.getTitle());
+      }
+      if (recipeDto.getMakingTime() != null) {
+        oldRecipe.setMakingTime(recipeDto.getMakingTime());
+      }
+      if (recipeDto.getServes() != null) {
+        oldRecipe.setServes(recipeDto.getServes());
+      }
+      if (recipeDto.getIngredients() != null) {
+        oldRecipe.setIngredients(recipeDto.getIngredients());
+      }
+      if (recipeDto.getCost() != null) {
+        oldRecipe.setCost(Integer.parseInt(recipeDto.getCost()));
+      }
+      return repository.save(oldRecipe).mapToDto();
+    }).orElseThrow(RecipeNotFoundException::new);
   }
 
 }

@@ -6,9 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 import org.springframework.data.domain.Sort;
 
-import java.util.ArrayList;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Before;
@@ -16,13 +14,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import jp.softbank.kansenchu.recipefordisaster.TestObjectRepository;
 import jp.softbank.kansenchu.recipefordisaster.dao.RecipeDao;
-import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
 import jp.softbank.kansenchu.recipefordisaster.exception.InvalidRecipeException;
 import jp.softbank.kansenchu.recipefordisaster.exception.RecipeNotFoundException;
 import jp.softbank.kansenchu.recipefordisaster.repository.RecipeRepo;
@@ -73,5 +69,19 @@ public class BasicRecipeServiceTest {
     when(recipeRepo.save(any(RecipeDao.class))).thenThrow(new ConstraintViolationException(null, null, null));
     expectedEx.expect(InvalidRecipeException.class);
     recipeService.addRecipe(TestObjectRepository.newRecipeDto);
+  }
+  
+  @Test
+  public void editRecipe() {
+    when(recipeRepo.findById(1)).thenReturn(Optional.of(TestObjectRepository.oneRecipeDao));
+    when(recipeRepo.save(TestObjectRepository.editedRecipeDao)).thenReturn(TestObjectRepository.editedRecipeDao);
+    assertEquals(recipeService.editRecipe(1, TestObjectRepository.newRecipeDto), TestObjectRepository.editedRecipeDao.mapToDto());
+  }
+  
+  @Test
+  public void editNonexistentRecipe() {
+    when(recipeRepo.findById(1)).thenReturn(Optional.empty());
+    expectedEx.expect(RecipeNotFoundException.class);
+    recipeService.editRecipe(1, TestObjectRepository.newRecipeDto);
   }
 }
