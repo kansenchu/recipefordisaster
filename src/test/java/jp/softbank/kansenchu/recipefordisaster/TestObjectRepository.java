@@ -1,6 +1,7 @@
 package jp.softbank.kansenchu.recipefordisaster;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -26,16 +27,17 @@ public class TestObjectRepository {
   );
   public static RecipeDto oneRecipeDto = oneRecipeDao.mapToDto();
   
-  public static RecipeDao newRecipe = new RecipeDao(
+  public static RecipeDao newRecipeDao = new RecipeDao(
     3,
     "豚骨ラーメン",
     "8時間",
     "100人",
     "玉ねぎ,肉,スパイス",
     50000,
-    new Timestamp(getMillisecondFromDateString("2016-01-10 12:10:12")),
-    new Timestamp(getMillisecondFromDateString("2016-01-10 12:10:12"))
+    new Timestamp(Instant.now().getEpochSecond()),
+    new Timestamp(Instant.now().getEpochSecond())
   );
+  public static RecipeDto newRecipeDto = newRecipeDao.mapToDto();
   
   public static List<RecipeDao> allRecipes = Arrays.asList(
       oneRecipeDao,

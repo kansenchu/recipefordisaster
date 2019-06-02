@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,6 +22,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import jp.softbank.kansenchu.recipefordisaster.TestObjectRepository;
 import jp.softbank.kansenchu.recipefordisaster.dao.RecipeDao;
+import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
+import jp.softbank.kansenchu.recipefordisaster.exception.InvalidRecipeException;
 import jp.softbank.kansenchu.recipefordisaster.exception.RecipeNotFoundException;
 import jp.softbank.kansenchu.recipefordisaster.repository.RecipeRepo;
 
@@ -57,5 +60,18 @@ public class BasicRecipeServiceTest {
     when(recipeRepo.findById(100)).thenThrow(new RecipeNotFoundException());
     expectedEx.expect(RecipeNotFoundException.class);
     recipeService.getRecipe(100);
+  }
+  
+  @Test
+  public void addRecipe() {
+    when(recipeRepo.save(TestObjectRepository.newRecipeDao)).thenReturn(TestObjectRepository.newRecipeDao);
+    assertEquals(recipeService.addRecipe(TestObjectRepository.newRecipeDto), TestObjectRepository.newRecipeDto);
+  }
+  
+  @Test
+  public void addInvalidRecipe() {
+    when(recipeRepo.save(any(RecipeDao.class))).thenThrow(new ConstraintViolationException(null, null, null));
+    expectedEx.expect(InvalidRecipeException.class);
+    recipeService.addRecipe(TestObjectRepository.newRecipeDto);
   }
 }

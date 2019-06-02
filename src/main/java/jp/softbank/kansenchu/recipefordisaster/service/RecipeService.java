@@ -21,4 +21,11 @@ public interface RecipeService {
    */
   public RecipeDto getRecipe(int id);
   
+  /**
+   * レシピをDBに加える.
+   * @param recipeDto 加えるレシピの情報
+   * @return 実際にDBに存在してる新しいレシピ
+   * @throws InvalidRecipeException レシピがあっていない時
+   */
+  public RecipeDto addRecipe(RecipeDto recipeDto);
 }

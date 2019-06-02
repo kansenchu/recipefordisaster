@@ -3,11 +3,10 @@ package jp.softbank.kansenchu.recipefordisaster.dto;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.*;
 
 import javax.validation.constraints.NotNull;
 
-import org.apache.tomcat.jni.Time;
-import org.modelmapper.ModelMapper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -16,7 +15,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import jp.softbank.kansenchu.recipefordisaster.dao.RecipeDao;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * REST API でやりとりする時使うレシピクラス.
@@ -57,8 +55,8 @@ public class RecipeDto {
         serves,
         ingredients,
         Integer.parseInt(cost),
-        new Timestamp(Time.now()),
-        new Timestamp(Time.now())
+        new Timestamp(Instant.now().getEpochSecond()),
+        new Timestamp(Instant.now().getEpochSecond())
     );
   }
 }
