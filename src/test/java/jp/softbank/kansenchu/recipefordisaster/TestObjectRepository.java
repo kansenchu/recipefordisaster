@@ -5,7 +5,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -66,10 +65,12 @@ public class TestObjectRepository {
       new Timestamp(getMillisecondFromDateString("2016-01-10 12:10:12")),
       new Timestamp(getMillisecondFromDateString("2016-01-10 12:10:12"))
   );
+  public static RecipeDto editedRecipeDto = editedRecipeDao.mapToDto();
   
   public static MultiRecipeResponse allRecipesResponse = new MultiRecipeResponse(allRecipesDto);
   public static SuccessResponse getOneResponse = new SuccessResponse(SuccessResponse.Message.RETRIEVED, TestObjectRepository.oneRecipeDto);
   public static SuccessResponse addOneResponse = new SuccessResponse(SuccessResponse.Message.CREATED, TestObjectRepository.newRecipeDto);
+  public static SuccessResponse editResponse = new SuccessResponse(SuccessResponse.Message.UPDATED, TestObjectRepository.editedRecipeDto);
   
   private static long getMillisecondFromDateString(String dateString) {
     return LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))

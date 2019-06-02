@@ -18,7 +18,8 @@ public class SuccessResponse {
    */
   public enum Message {
     RETRIEVED("Recipe details by id"),
-    CREATED("Recipe successfully created!");
+    CREATED("Recipe successfully created!"),
+    UPDATED("Recipe successfully updated!");
 
     private String message;
     

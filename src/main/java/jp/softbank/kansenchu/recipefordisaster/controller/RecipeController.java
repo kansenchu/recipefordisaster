@@ -26,4 +26,13 @@ public interface RecipeController {
    * @return 新しいレシピを含めてるレスポンス
    */
   public SuccessResponse addRecipe(RecipeDto newRecipe);
+  
+  /**
+   * レシピを変更するメソッド.
+   * 指定していないフィルドは古いものを使うままにします。
+   * @param id 変えたいレシピのid
+   * @param recipe 変えたいもの詳細
+   * @return 変更したレシピ詳細
+   */
+  public SuccessResponse editRecipe(int id, RecipeDto recipe);
 }

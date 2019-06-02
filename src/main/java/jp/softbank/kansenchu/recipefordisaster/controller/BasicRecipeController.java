@@ -3,6 +3,7 @@ package jp.softbank.kansenchu.recipefordisaster.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,6 +53,15 @@ public class BasicRecipeController implements RecipeController {
   public SuccessResponse addRecipe(@RequestBody RecipeDto newRecipe) {       
     RecipeDto actualRecipe = recipeService.addRecipe(newRecipe);
     return new SuccessResponse(SuccessResponse.Message.CREATED, actualRecipe);
+  }
+  
+  /**
+   * @{inheritDoc}
+   */
+  @PatchMapping(value = "/{id}")
+  public SuccessResponse editRecipe(@PathVariable int id, @RequestBody RecipeDto recipe) {
+    RecipeDto newRecipe = recipeService.editRecipe(id, recipe);
+    return new SuccessResponse(SuccessResponse.Message.UPDATED, newRecipe);
   }
 
 }

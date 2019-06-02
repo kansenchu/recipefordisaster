@@ -43,5 +43,10 @@ public class BasicRecipeControllerTest {
     assertEquals(recipeController.addRecipe(TestObjectRepository.newRecipeDto), TestObjectRepository.addOneResponse);
   }
   
+  @Test
+  public void editRecipe() {
+    when(recipeService.editRecipe(1, TestObjectRepository.newRecipeDto)).thenReturn(TestObjectRepository.editedRecipeDto);
+    assertEquals(recipeController.editRecipe(1, TestObjectRepository.newRecipeDto), TestObjectRepository.editResponse);
+  }
 
 }
