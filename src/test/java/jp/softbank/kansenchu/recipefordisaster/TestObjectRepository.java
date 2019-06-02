@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import jp.softbank.kansenchu.recipefordisaster.dao.RecipeDao;
+import jp.softbank.kansenchu.recipefordisaster.dto.ErrorResponse;
 import jp.softbank.kansenchu.recipefordisaster.dto.MultiRecipeResponse;
 import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
 import jp.softbank.kansenchu.recipefordisaster.dto.SuccessResponse;
@@ -72,6 +73,11 @@ public class TestObjectRepository {
   public static SuccessResponse addOneResponse = new SuccessResponse(SuccessResponse.Message.CREATED, TestObjectRepository.newRecipeDto);
   public static SuccessResponse editedResponse = new SuccessResponse(SuccessResponse.Message.UPDATED, TestObjectRepository.editedRecipeDto);
   public static SuccessResponse deletedResponse = new SuccessResponse(SuccessResponse.Message.DELETED);
+  
+  public static ErrorResponse notFoundResponse = new ErrorResponse(ErrorResponse.Message.NOT_FOUND);
+  
+  public static String allFieldsMissingStr = "title, making_time, serves, ingredients, cost";
+  public static ErrorResponse invalidRecipeResponse = new ErrorResponse(ErrorResponse.Message.CREATION_FAILED, allFieldsMissingStr);
   
   private static long getMillisecondFromDateString(String dateString) {
     return LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))

@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/recipes")
 @RequiredArgsConstructor
-public class BasicRecipeController implements RecipeController {
+public class BasicRecipeController implements RecipeController, RecipeExceptionController {
   
   final RecipeService recipeService;
 
@@ -103,13 +103,6 @@ public class BasicRecipeController implements RecipeController {
   @ExceptionHandler(InvalidRecipeException.class)
   @ResponseStatus(HttpStatus.OK)
   public ErrorResponse invalidRecipeHandler(InvalidRecipeException ex) {
-    return new ErrorResponse(ErrorResponse.Message.CREATION_FAILED, ex.getMessage());
-  }
-
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  @ResponseStatus(HttpStatus.OK)
-  public ErrorResponse invalidRecipeHandler(Exception ex) {
-    System.out.println(ex.getCause().getMessage());
     return new ErrorResponse(ErrorResponse.Message.CREATION_FAILED, ex.getMessage());
   }
 
