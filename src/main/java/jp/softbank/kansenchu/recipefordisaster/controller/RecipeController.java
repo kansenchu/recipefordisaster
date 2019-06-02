@@ -35,4 +35,11 @@ public interface RecipeController {
    * @return 変更したレシピ詳細
    */
   public SuccessResponse editRecipe(int id, RecipeDto recipe);
+  
+  /**
+   * レシピを削除するメソッド.
+   * @param id 削除するレシピID
+   * @return 削除成功レスポンス
+   */
+  public SuccessResponse deleteRecipe(int id);
 }

@@ -70,7 +70,8 @@ public class TestObjectRepository {
   public static MultiRecipeResponse allRecipesResponse = new MultiRecipeResponse(allRecipesDto);
   public static SuccessResponse getOneResponse = new SuccessResponse(SuccessResponse.Message.RETRIEVED, TestObjectRepository.oneRecipeDto);
   public static SuccessResponse addOneResponse = new SuccessResponse(SuccessResponse.Message.CREATED, TestObjectRepository.newRecipeDto);
-  public static SuccessResponse editResponse = new SuccessResponse(SuccessResponse.Message.UPDATED, TestObjectRepository.editedRecipeDto);
+  public static SuccessResponse editedResponse = new SuccessResponse(SuccessResponse.Message.UPDATED, TestObjectRepository.editedRecipeDto);
+  public static SuccessResponse deletedResponse = new SuccessResponse(SuccessResponse.Message.DELETED);
   
   private static long getMillisecondFromDateString(String dateString) {
     return LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))

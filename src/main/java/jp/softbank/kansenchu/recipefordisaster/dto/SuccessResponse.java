@@ -1,6 +1,9 @@
 package jp.softbank.kansenchu.recipefordisaster.dto;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonView;
+
+import jp.softbank.kansenchu.recipefordisaster.dto.views.ResponseViews;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +22,8 @@ public class SuccessResponse {
   public enum Message {
     RETRIEVED("Recipe details by id"),
     CREATED("Recipe successfully created!"),
-    UPDATED("Recipe successfully updated!");
+    UPDATED("Recipe successfully updated!"),
+    DELETED("Recipe successfully removed!");
 
     private String message;
     
@@ -33,8 +37,10 @@ public class SuccessResponse {
     }
   }
   
+  @JsonView(ResponseViews.MessageOnly.class)
   final Message message;
   
+  @JsonView(ResponseViews.MessageWithRecipe.class)
   List<RecipeDto> recipe;
 
   /**

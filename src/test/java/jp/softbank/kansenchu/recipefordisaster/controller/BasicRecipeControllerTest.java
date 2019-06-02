@@ -46,7 +46,13 @@ public class BasicRecipeControllerTest {
   @Test
   public void editRecipe() {
     when(recipeService.editRecipe(1, TestObjectRepository.newRecipeDto)).thenReturn(TestObjectRepository.editedRecipeDto);
-    assertEquals(recipeController.editRecipe(1, TestObjectRepository.newRecipeDto), TestObjectRepository.editResponse);
+    assertEquals(recipeController.editRecipe(1, TestObjectRepository.newRecipeDto), TestObjectRepository.editedResponse);
+  }
+  
+  @Test
+  public void deleteRecipe() {
+    when(recipeService.deleteRecipe(1)).thenReturn(TestObjectRepository.oneRecipeDto);
+    assertEquals(recipeController.deleteRecipe(1), TestObjectRepository.deletedResponse);
   }
 
 }
