@@ -4,11 +4,14 @@ import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
+import org.modelmapper.ModelMapper;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import jp.softbank.kansenchu.recipefordisaster.dao.RecipeDao;
 import lombok.Data;
 
 /**
@@ -42,4 +45,10 @@ public class RecipeDto {
   /** レシピの予測値段。intではなく, Stringです. */
   @NotNull
   private final String cost; 
+  
+  private static ModelMapper mapper = new ModelMapper();
+  
+  public static RecipeDao mapToDao(RecipeDto dao) {
+    return mapper.map(dao, RecipeDao.class);
+  }
 }

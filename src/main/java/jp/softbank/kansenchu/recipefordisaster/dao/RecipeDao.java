@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.modelmapper.ModelMapper;
+
+import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
 
 /**
  * DBとやりとりする時使うレシピクラス.
@@ -57,4 +60,10 @@ public class RecipeDao {
   @UpdateTimestamp
   @Column(name = "updated_at")
   private Timestamp updatedAt;
+  
+  private static ModelMapper mapper = new ModelMapper();
+  
+  public static RecipeDto mapToDto(RecipeDao dao) {
+    return mapper.map(dao, RecipeDto.class);
+  }
 }  
