@@ -3,14 +3,14 @@ package jp.softbank.kansenchu.recipefordisaster;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.assertj.core.util.Arrays;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import jp.softbank.kansenchu.recipefordisaster.dao.RecipeDao;
+import jp.softbank.kansenchu.recipefordisaster.dto.MultiRecipeResponse;
 import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
 
 public class TestObjectRepository {
@@ -36,11 +36,9 @@ public class TestObjectRepository {
     new Timestamp(getMillisecondFromDateString("2016-01-10 12:10:12"))
   );
   
-  public static List<RecipeDao> allRecipes = new ArrayList<>();
-  
-  static {
-      allRecipes.add(oneRecipe);
-      allRecipes.add(new RecipeDao(
+  public static List<RecipeDao> allRecipes = Arrays.asList(
+      oneRecipe,
+      new RecipeDao(
           2,
           "オムライス",
           "30分",
@@ -49,8 +47,12 @@ public class TestObjectRepository {
           700,
           new Timestamp(getMillisecondFromDateString("2016-01-11 13:10:12")),
           new Timestamp(getMillisecondFromDateString("2016-01-11 13:10:12"))
-      ));
-  };
+      )
+  );
+  public static List<RecipeDto> allRecipesDto = allRecipes.stream()
+      .map(RecipeDao::mapToDto).collect(Collectors.toList());
+  
+  public static MultiRecipeResponse allRecipesResponse = new MultiRecipeResponse(allRecipesDto);
   
   private static long getMillisecondFromDateString(String dateString) {
     return LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))

@@ -36,7 +36,6 @@ public class BasicRecipeServiceTest {
   @Test
   public void getAllRecipes() {
     when(recipeRepo.findAll(any(Sort.class))).thenReturn(TestObjectRepository.allRecipes);
-    assertEquals(recipeService.getAllRecipes(), 
-        TestObjectRepository.allRecipes.stream().map(RecipeDao::mapToDto).collect(Collectors.toList()));
+    assertEquals(recipeService.getAllRecipes(), TestObjectRepository.allRecipesDto);
   }
 }
