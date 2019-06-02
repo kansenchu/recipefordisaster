@@ -37,8 +37,13 @@ public class BasicRecipeControllerTest {
   @Test
   public void getOneRecipe() {
     when(recipeService.getRecipe(1)).thenReturn(TestObjectRepository.oneRecipeDto);
-    assertEquals(recipeController.getRecipe(1),
-        new SuccessResponse(SuccessResponse.Message.RetrievalSuccess, TestObjectRepository.oneRecipeDto));
+    assertEquals(recipeController.getRecipe(1), TestObjectRepository.getOneResponse);
+  }
+  
+  @Test
+  public void addRecipe() {
+    when(recipeService.addRecipe(TestObjectRepository.newRecipeDto)).thenReturn(TestObjectRepository.newRecipeDto);
+    assertEquals(recipeController.addRecipe(TestObjectRepository.newRecipeDto), TestObjectRepository.addOneResponse);
   }
   
 

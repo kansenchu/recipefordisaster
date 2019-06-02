@@ -1,6 +1,7 @@
 package jp.softbank.kansenchu.recipefordisaster.controller;
 
 import jp.softbank.kansenchu.recipefordisaster.dto.MultiRecipeResponse;
+import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
 import jp.softbank.kansenchu.recipefordisaster.dto.SuccessResponse;
 
 public interface RecipeController {
@@ -18,4 +19,11 @@ public interface RecipeController {
    * @return 一個のレシピのレスポンス
    */
   public SuccessResponse getRecipe(int id);
+  
+  /**
+   * レシピを加えるメソッド.
+   * @param newRecipe 新しいレシピの詳細
+   * @return 新しいレシピを含めてるレスポンス
+   */
+  public SuccessResponse addRecipe(RecipeDto newRecipe);
 }

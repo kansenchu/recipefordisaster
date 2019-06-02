@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import jp.softbank.kansenchu.recipefordisaster.dao.RecipeDao;
 import jp.softbank.kansenchu.recipefordisaster.dto.MultiRecipeResponse;
 import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
+import jp.softbank.kansenchu.recipefordisaster.dto.SuccessResponse;
 
 public class TestObjectRepository {
   public static RecipeDao oneRecipeDao = new RecipeDao(
@@ -56,6 +57,8 @@ public class TestObjectRepository {
       .map(RecipeDao::mapToDto).collect(Collectors.toList());
   
   public static MultiRecipeResponse allRecipesResponse = new MultiRecipeResponse(allRecipesDto);
+  public static SuccessResponse getOneResponse = new SuccessResponse(SuccessResponse.Message.RETRIEVED, TestObjectRepository.oneRecipeDto);
+  public static SuccessResponse addOneResponse = new SuccessResponse(SuccessResponse.Message.CREATED, TestObjectRepository.newRecipeDto);
   
   private static long getMillisecondFromDateString(String dateString) {
     return LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))

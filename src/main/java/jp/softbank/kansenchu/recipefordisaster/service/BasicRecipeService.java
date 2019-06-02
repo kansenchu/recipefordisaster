@@ -48,7 +48,27 @@ public class BasicRecipeService implements RecipeService {
       RecipeDao toSave = recipeDto.mapToDao();
       return repository.save(toSave).mapToDto();
     } catch (ConstraintViolationException ex) {
-      throw new InvalidRecipeException();
+      ArrayList<String> missing = new ArrayList<String>();
+      if (recipeDto.getTitle() == null) {
+        missing.add("title");
+      }
+      if (recipeDto.getMakingTime() == null) {
+        missing.add("making_time");
+      }
+      if (recipeDto.getIngredients() == null) {
+        missing.add("ingredients");
+      }
+      if (recipeDto.getServes() == null) {
+        missing.add("serves");
+      }
+      if (recipeDto.getCost() == null) {
+        missing.add("cost");
+      }
+      if (!missing.isEmpty()) {
+        throw new InvalidRecipeException(String.join(",", missing));
+      } else {
+        throw ex;
+      }
     }
   }
 

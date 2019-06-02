@@ -17,7 +17,8 @@ public class SuccessResponse {
    * 可能なメッセージを代表するenum.
    */
   public enum Message {
-    RetrievalSuccess("Recipe details by id");
+    RETRIEVED("Recipe details by id"),
+    CREATED("Recipe successfully created!");
 
     private String message;
     
