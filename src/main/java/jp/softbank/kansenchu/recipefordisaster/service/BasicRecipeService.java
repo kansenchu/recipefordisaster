@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.hibernate.exception.ConstraintViolationException;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -49,27 +50,20 @@ public class BasicRecipeService implements RecipeService {
       RecipeDao toSave = recipeDto.mapToDao();
       return repository.save(toSave).mapToDto();
     } catch (ConstraintViolationException ex) {
-      ArrayList<String> missing = new ArrayList<String>();
-      if (recipeDto.getTitle() == null) {
-        missing.add("title");
-      }
-      if (recipeDto.getMakingTime() == null) {
-        missing.add("making_time");
-      }
-      if (recipeDto.getIngredients() == null) {
-        missing.add("ingredients");
-      }
-      if (recipeDto.getServes() == null) {
-        missing.add("serves");
-      }
-      if (recipeDto.getCost() == null) {
-        missing.add("cost");
-      }
-      if (!missing.isEmpty()) {
-        throw new InvalidRecipeException(String.join(",", missing));
-      } else {
-        throw new InvalidRecipeException();
-      }
+      List<String> errorFields =  ex.getConstraintViolations()
+          .stream()
+          .map(ConstraintViolation::getMessage)
+          .collect(Collectors.toList());
+      
+      List<String> result = new ArrayList<>();
+      if (errorFields.contains("title")) result.add("title");
+      if (errorFields.contains("making_time")) result.add("making_time");
+      if (errorFields.contains("serves")) result.add("serves");
+      if (errorFields.contains("ingredients")) result.add("ingredients");
+      if (errorFields.contains("cost")) result.add("cost");
+      
+      throw new InvalidRecipeException(String.join(", ", result));
+      
     }
   }
   
@@ -91,7 +85,7 @@ public class BasicRecipeService implements RecipeService {
         oldRecipe.setIngredients(recipeDto.getIngredients());
       }
       if (recipeDto.getCost() != null) {
-        oldRecipe.setCost(Integer.parseInt(recipeDto.getCost()));
+        oldRecipe.setCost(recipeDto.getCost());
       }
       return repository.save(oldRecipe).mapToDto();
     }).orElseThrow(RecipeNotFoundException::new);

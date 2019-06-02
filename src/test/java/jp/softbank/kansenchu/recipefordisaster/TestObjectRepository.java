@@ -22,7 +22,7 @@ public class TestObjectRepository {
       "45分",
       "4人",
       "玉ねぎ,肉,スパイス",
-      1000,
+      "1000",
       new Timestamp(getMillisecondFromDateString("2016-01-10 12:10:12")),
       new Timestamp(getMillisecondFromDateString("2016-01-10 12:10:12"))
   );
@@ -34,11 +34,19 @@ public class TestObjectRepository {
     "8時間",
     "100人",
     "玉ねぎ,肉,スパイス",
-    50000,
+    "50000",
     new Timestamp(Instant.now().getEpochSecond()),
     new Timestamp(Instant.now().getEpochSecond())
   );
   public static RecipeDto newRecipeDto = newRecipeDao.mapToDto();
+  
+  public static RecipeDto newRecipeNoId = RecipeDto.builder()
+      .title("豚骨ラーメン")
+      .makingTime("8時間")
+      .serves("100人")
+      .ingredients("玉ねぎ,肉,スパイス")
+      .cost("50000")
+      .build();
   
   public static List<RecipeDao> allRecipes = Arrays.asList(
       oneRecipeDao,
@@ -48,7 +56,7 @@ public class TestObjectRepository {
           "30分",
           "2人",
           "玉ねぎ,卵,スパイス,醤油",
-          700,
+          "700",
           new Timestamp(getMillisecondFromDateString("2016-01-11 13:10:12")),
           new Timestamp(getMillisecondFromDateString("2016-01-11 13:10:12"))
       )
@@ -62,7 +70,7 @@ public class TestObjectRepository {
       "8時間",
       "100人",
       "玉ねぎ,肉,スパイス",
-      50000,
+      "50000",
       new Timestamp(getMillisecondFromDateString("2016-01-10 12:10:12")),
       new Timestamp(getMillisecondFromDateString("2016-01-10 12:10:12"))
   );
@@ -70,7 +78,7 @@ public class TestObjectRepository {
   
   public static MultiRecipeResponse allRecipesResponse = new MultiRecipeResponse(allRecipesDto);
   public static SuccessResponse getOneResponse = new SuccessResponse(SuccessResponse.Message.RETRIEVED, TestObjectRepository.oneRecipeDto);
-  public static SuccessResponse addOneResponse = new SuccessResponse(SuccessResponse.Message.CREATED, TestObjectRepository.newRecipeDto);
+  public static SuccessResponse addOneResponse = new SuccessResponse(SuccessResponse.Message.CREATED, TestObjectRepository.newRecipeNoId);
   public static SuccessResponse editedResponse = new SuccessResponse(SuccessResponse.Message.UPDATED, TestObjectRepository.editedRecipeDto);
   public static SuccessResponse deletedResponse = new SuccessResponse(SuccessResponse.Message.DELETED);
   

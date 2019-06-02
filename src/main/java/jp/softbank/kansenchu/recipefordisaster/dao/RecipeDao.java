@@ -3,11 +3,14 @@ package jp.softbank.kansenchu.recipefordisaster.dao;
 import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,30 +28,32 @@ import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class RecipeDao {
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   /** レシピの名前. */
-  @NotNull
+  @NotNull(message = "title")
   private String title;
 
   /** レシピの作り時間. */
-  @NotNull
+  @NotNull(message = "making_time")
   @Column(name = "making_time")
   private String makingTime;
 
   /** レシピに対応する人数. */
-  @NotNull
+  @NotNull(message = "serves")
   private String serves;
 
   /** 材料リスト。Listではなく、String扱いとしています. */
-  @NotNull
+  @NotNull(message = "ingredients")
   private String ingredients;
 
   /** レシピの予測値段. */
-  @NotNull
-  private int cost;
+  @NotNull(message = "cost")
+  private String cost;
 
   /** レシピの作成時間. */
   @CreationTimestamp
@@ -61,6 +66,13 @@ public class RecipeDao {
   private Timestamp updatedAt;
   
   public RecipeDto mapToDto() {
-    return new RecipeDto(id, title, makingTime, serves, ingredients, Integer.toString(cost));
+    return RecipeDto.builder()
+        .id(id)
+        .title(title)
+        .makingTime(makingTime)
+        .serves(serves)
+        .ingredients(ingredients)
+        .cost(cost)
+        .build();
   }
 }  
