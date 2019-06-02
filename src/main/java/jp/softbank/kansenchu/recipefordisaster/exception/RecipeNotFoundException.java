@@ -1,7 +1,7 @@
 package jp.softbank.kansenchu.recipefordisaster.exception;
 
 /**
- * レシピが見つからないことを指定するエクセプション.
+ * レシピが見つからないことを指定するエクセプション。
  */
 public class RecipeNotFoundException extends RuntimeException {
 

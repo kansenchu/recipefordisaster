@@ -1,7 +1,7 @@
 package jp.softbank.kansenchu.recipefordisaster.dto.views;
 
 /**
- * レシピのRESTやるとりするViewを指定するクラス.
+ * レシピのRESTやるとりするViewを指定するクラス。
  * 実際に管理するロジックは、Jacksonのライブラリにあります。
  * Recipeクラスの中のAnnotationによってViewの項目が決める。
  * 

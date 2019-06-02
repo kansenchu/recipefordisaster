@@ -2,18 +2,18 @@ package jp.softbank.kansenchu.recipefordisaster.service;
 
 import java.util.List;
 
-import jp.softbank.kansenchu.recipefordisaster.exception.RecipeNotFoundException;
 import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
+import jp.softbank.kansenchu.recipefordisaster.exception.RecipeNotFoundException;
 
 public interface RecipeService {
   /**
-   * 全レシピ取得.
+   * 全レシピ取得。
    * @return 全レシピのリスト
    */
   public List<RecipeDto> getAllRecipes();
   
   /**
-   * 指定したIDのレシピを返す.
+   * 指定したIDのレシピを返す。
    * @param id 欲しいレシピ
    * @return 指定したレシピ
    * @throws RecipeNotFoundException レシピ見つかれない時
@@ -21,7 +21,7 @@ public interface RecipeService {
   public RecipeDto getRecipe(int id);
   
   /**
-   * レシピをDBに加える.
+   * レシピをDBに加える。
    * @param recipeDto 加えるレシピの情報
    * @return 実際にDBに存在してる新しいレシピ
    * @throws InvalidRecipeException レシピがあっていない時
@@ -29,7 +29,7 @@ public interface RecipeService {
   public RecipeDto addRecipe(RecipeDto recipeDto);
   
   /**
-   * 現在存在してるレシピを更新.
+   * 現在存在してるレシピを更新。
    * @param id 変えたいレシピ
    * @param recipeDto 新しい詳細
    * @return 更新されたレシピ
@@ -38,7 +38,7 @@ public interface RecipeService {
   public RecipeDto editRecipe(int id, RecipeDto recipeDto);
   
   /**
-   * レシピを削除する.
+   * レシピを削除する。
    * @param id 削除したいレシピID
    * @return 削除したレシピ
    * @throws RecipeNotFoundException レシピが見つからない時

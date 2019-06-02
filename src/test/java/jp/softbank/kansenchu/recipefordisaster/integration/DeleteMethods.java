@@ -32,7 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { "local.api.url.template=http://localhost:%d/recipes/%s" })
-public class GetMethods {
+public class DeleteMethods {
   
   @SpyBean
   RecipeService recipeService;
@@ -53,7 +53,8 @@ public class GetMethods {
   
   ObjectMapper jsonMapper = new ObjectMapper();
   
-  ObjectWriter jsonWriter = jsonMapper.writerWithView(ResponseViews.MessageOnly.class);
+  ObjectWriter jsonWriter = jsonMapper.writerWithView(ResponseViews.MessageWithRecipe.class);
+  ObjectWriter errorWriter = jsonMapper.writerWithView(ResponseViews.MessageOnly.class);
 
   @Before
   public void setup() throws IOException {
@@ -61,55 +62,38 @@ public class GetMethods {
   }
   
   @Test
-  public void getAllRecipes() throws Exception {
-    // setup
-    String expected = jsonMapper.writeValueAsString(TestObjectRepository.allRecipesResponse);
-
-    String requestUrl = String.format(urlTemplate, port, "");
-
-    // act
-    mockMvc.perform(MockMvcRequestBuilders.get(requestUrl))
-        // verify
-        .andExpect(status().isOk())
-        .andExpect(content().contentType("application/json;charset=UTF-8"))
-        .andExpect(content().json(expected));
-    verify(recipeService).getAllRecipes();
-  }
-  
-  @Test
-  public void getOneRecipe() throws Exception {
+  public void deleteOneRecipe() throws Exception {
     //setup
     int recipeId = 1;
     String requestUrl = String.format(urlTemplate, port, recipeId);
     
-    String expected = jsonWriter.writeValueAsString(TestObjectRepository.getOneResponse);
+    String expected = errorWriter.writeValueAsString(TestObjectRepository.deletedResponse);
     
     //act
-    mockMvc.perform(MockMvcRequestBuilders.get(requestUrl))
+    mockMvc.perform(MockMvcRequestBuilders.delete(requestUrl))
       //verify
       .andExpect(status().isOk())
       .andExpect(content().contentType("application/json;charset=UTF-8"))
       .andExpect(content().json(expected));
 
-    verify(recipeService).getRecipe(recipeId);
+    verify(recipeService).deleteRecipe(recipeId);
   }
   
   @Test
-  public void getNonexistentRecipe() throws Exception {
+  public void deleteNonexistentRecipe() throws Exception {
     //setup
     int recipeId = 999;
     String requestUrl = String.format(urlTemplate, port, recipeId);
 
-    String expected = jsonWriter.writeValueAsString(TestObjectRepository.notFoundResponse);
+    String expected = errorWriter.writeValueAsString(TestObjectRepository.notFoundResponse);
     System.out.println(expected);
     
     //act
-    mockMvc.perform(MockMvcRequestBuilders.get(requestUrl))
+    mockMvc.perform(MockMvcRequestBuilders.delete(requestUrl))
         //verify
         .andExpect(status().is(200))
         .andExpect(content().contentType("application/json;charset=UTF-8"))
         .andExpect(content().json(expected));
-    verify(recipeService).getRecipe(recipeId);
+    verify(recipeService).deleteRecipe(recipeId);
   }
-  
 }

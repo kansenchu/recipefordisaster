@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * レシピの各リクエストを受付するクラス.
+ * レシピの各リクエストを受付するクラス。
  */
 @RestController
 @RequestMapping("/recipes")
@@ -57,9 +57,7 @@ public class BasicRecipeController implements RecipeController, RecipeExceptionC
   }
   
   /**
-   * レシピを加えるメソッド.
-   * @param newRecipe 新しいレシピの詳細
-   * @return 新しいレシピを含めてるレスポンス
+   * {@inheritDoc}
    */
   @JsonView(ResponseViews.MessageWithRecipe.class)
   @PostMapping
@@ -89,9 +87,7 @@ public class BasicRecipeController implements RecipeController, RecipeExceptionC
   }
   
   /**
-   * レシピが見つかれない時対応するハンドラー.
-   * @param ex もらったエクセプション
-   * @return 決定のエラーメッセージ
+   * {@inheritDoc}
    */
   @JsonView(ResponseViews.MessageOnly.class)
   @ExceptionHandler(RecipeNotFoundException.class)
@@ -100,6 +96,9 @@ public class BasicRecipeController implements RecipeController, RecipeExceptionC
     return new ErrorResponse(ErrorResponse.Message.NOT_FOUND);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @JsonView(ResponseViews.MessageWithRequired.class)
   @ExceptionHandler(InvalidRecipeException.class)
   @ResponseStatus(HttpStatus.OK)

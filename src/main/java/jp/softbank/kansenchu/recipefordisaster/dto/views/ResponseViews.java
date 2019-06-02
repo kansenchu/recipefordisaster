@@ -1,7 +1,7 @@
 package jp.softbank.kansenchu.recipefordisaster.dto.views;
 
 /**
- * 普段メッセージレスポンスを返す用POJOクラス.
+ * 普段メッセージレスポンスを返す用POJOクラス。
  */
 public class ResponseViews {
   public static interface MessageOnly {}

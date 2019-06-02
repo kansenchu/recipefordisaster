@@ -4,7 +4,15 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
+
+import jp.softbank.kansenchu.recipefordisaster.TestObjectRepository;
+import jp.softbank.kansenchu.recipefordisaster.controller.RecipeController;
+import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
+import jp.softbank.kansenchu.recipefordisaster.dto.views.ResponseViews;
+import jp.softbank.kansenchu.recipefordisaster.service.RecipeService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,18 +26,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import jp.softbank.kansenchu.recipefordisaster.TestObjectRepository;
-import jp.softbank.kansenchu.recipefordisaster.controller.RecipeController;
-import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
-import jp.softbank.kansenchu.recipefordisaster.dto.views.ResponseViews;
-import jp.softbank.kansenchu.recipefordisaster.service.RecipeService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -85,7 +84,7 @@ public class PostMethods {
   
   @Test
   public void addBadRecipe() throws Exception {
- // setup
+    // setup
     RecipeDto fake = new RecipeDto();
     String parameter = jsonMapper.writeValueAsString(fake);
     String expected = jsonMapper.writeValueAsString(TestObjectRepository.invalidRecipeResponse);
@@ -94,15 +93,14 @@ public class PostMethods {
     String requestUrl = String.format(urlTemplate, port, "");
 
     // act
-    MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(requestUrl)
+    mockMvc.perform(MockMvcRequestBuilders.post(requestUrl)
         .contentType(MediaType.APPLICATION_JSON)
         .content(parameter))
 
         //verify
         .andExpect(status().isOk())
         .andExpect(content().contentType("application/json;charset=UTF-8"))
-        .andExpect(content().json(expected))
-        .andReturn();
+        .andExpect(content().json(expected));
     verify(recipeService).addRecipe(fake);
   }
 }

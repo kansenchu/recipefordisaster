@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
- * エラーのレスポンス用POJOクラス.
+ * エラーのレスポンス用POJOクラス。
  */
 @Data
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class ErrorResponse {
     }
   }
 
-  /** リクエストに返信メッセージ. */
+  /** リクエストに返信メッセージ。 */
   @JsonView(ResponseViews.MessageOnly.class)
   final Message message;
 

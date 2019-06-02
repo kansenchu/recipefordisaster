@@ -7,15 +7,16 @@ import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
+import jp.softbank.kansenchu.recipefordisaster.dao.RecipeDao;
 import jp.softbank.kansenchu.recipefordisaster.dto.RecipeDto;
 import jp.softbank.kansenchu.recipefordisaster.exception.InvalidRecipeException;
 import jp.softbank.kansenchu.recipefordisaster.exception.RecipeNotFoundException;
-import jp.softbank.kansenchu.recipefordisaster.dao.RecipeDao;
 import jp.softbank.kansenchu.recipefordisaster.repository.RecipeRepo;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -55,12 +56,23 @@ public class BasicRecipeService implements RecipeService {
           .map(ConstraintViolation::getMessage)
           .collect(Collectors.toList());
       
+      // there should be a better way to sort the fields based on arbitrary order
       List<String> result = new ArrayList<>();
-      if (errorFields.contains("title")) result.add("title");
-      if (errorFields.contains("making_time")) result.add("making_time");
-      if (errorFields.contains("serves")) result.add("serves");
-      if (errorFields.contains("ingredients")) result.add("ingredients");
-      if (errorFields.contains("cost")) result.add("cost");
+      if (errorFields.contains("title")) { 
+        result.add("title");
+      }
+      if (errorFields.contains("making_time")) {
+        result.add("making_time");
+      }
+      if (errorFields.contains("serves")) {
+        result.add("serves");
+      }
+      if (errorFields.contains("ingredients")) {
+        result.add("ingredients");
+      }
+      if (errorFields.contains("cost")) {
+        result.add("cost");
+      }
       
       throw new InvalidRecipeException(String.join(", ", result));
       

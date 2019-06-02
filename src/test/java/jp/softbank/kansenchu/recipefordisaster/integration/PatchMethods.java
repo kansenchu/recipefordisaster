@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,7 +33,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = { "local.api.url.template=http://localhost:%d/recipes/%s" })
-public class GetMethods {
+public class PatchMethods {
   
   @SpyBean
   RecipeService recipeService;
@@ -53,7 +54,8 @@ public class GetMethods {
   
   ObjectMapper jsonMapper = new ObjectMapper();
   
-  ObjectWriter jsonWriter = jsonMapper.writerWithView(ResponseViews.MessageOnly.class);
+  ObjectWriter jsonWriter = jsonMapper.writerWithView(ResponseViews.MessageWithRecipe.class);
+  ObjectWriter errorWriter = jsonMapper.writerWithView(ResponseViews.MessageOnly.class);
 
   @Before
   public void setup() throws IOException {
@@ -61,55 +63,41 @@ public class GetMethods {
   }
   
   @Test
-  public void getAllRecipes() throws Exception {
+  public void editRecipe() throws Exception {
     // setup
-    String expected = jsonMapper.writeValueAsString(TestObjectRepository.allRecipesResponse);
+    String parameter = jsonMapper.writeValueAsString(TestObjectRepository.newRecipeNoId);
+    String expected = jsonWriter.writeValueAsString(TestObjectRepository.editedResponse);
 
-    String requestUrl = String.format(urlTemplate, port, "");
+    String requestUrl = String.format(urlTemplate, port, 1);
 
     // act
-    mockMvc.perform(MockMvcRequestBuilders.get(requestUrl))
-        // verify
+    mockMvc.perform(MockMvcRequestBuilders.patch(requestUrl)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(parameter))
+
+        //verify
         .andExpect(status().isOk())
         .andExpect(content().contentType("application/json;charset=UTF-8"))
         .andExpect(content().json(expected));
-    verify(recipeService).getAllRecipes();
+    verify(recipeService).editRecipe(1, TestObjectRepository.newRecipeNoId);
   }
   
   @Test
-  public void getOneRecipe() throws Exception {
-    //setup
-    int recipeId = 1;
-    String requestUrl = String.format(urlTemplate, port, recipeId);
-    
-    String expected = jsonWriter.writeValueAsString(TestObjectRepository.getOneResponse);
-    
-    //act
-    mockMvc.perform(MockMvcRequestBuilders.get(requestUrl))
-      //verify
-      .andExpect(status().isOk())
-      .andExpect(content().contentType("application/json;charset=UTF-8"))
-      .andExpect(content().json(expected));
+  public void editNonexistentRecipe() throws Exception {
+    // setup
+    String parameter = jsonMapper.writeValueAsString(TestObjectRepository.newRecipeNoId);
+    String expected = errorWriter.writeValueAsString(TestObjectRepository.notFoundResponse);
+    String requestUrl = String.format(urlTemplate, port, 999);
 
-    verify(recipeService).getRecipe(recipeId);
-  }
-  
-  @Test
-  public void getNonexistentRecipe() throws Exception {
-    //setup
-    int recipeId = 999;
-    String requestUrl = String.format(urlTemplate, port, recipeId);
+    // act
+    mockMvc.perform(MockMvcRequestBuilders.patch(requestUrl)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(parameter))
 
-    String expected = jsonWriter.writeValueAsString(TestObjectRepository.notFoundResponse);
-    System.out.println(expected);
-    
-    //act
-    mockMvc.perform(MockMvcRequestBuilders.get(requestUrl))
         //verify
-        .andExpect(status().is(200))
+        .andExpect(status().isOk())
         .andExpect(content().contentType("application/json;charset=UTF-8"))
         .andExpect(content().json(expected));
-    verify(recipeService).getRecipe(recipeId);
+    verify(recipeService).editRecipe(999, TestObjectRepository.newRecipeNoId);
   }
-  
 }

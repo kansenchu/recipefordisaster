@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * レシピをデータベースで管理するクラス.
+ * レシピをデータベースで管理するクラス。
  * JpaRepositoryを継承しているため、ただでデフォルトのデータベースからレシピ取り出すことができる。
  */
 @Repository
