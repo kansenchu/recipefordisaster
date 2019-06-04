@@ -4,9 +4,13 @@
 
 ## Supported REST methods:
 GET baseurl/ -> 全件検索
+
 GET baseurl/{id} -> 一件検索
+
 POST baseurl body={title(string),making_time(string),serves(string),ingredients(string),cost(string)} -> レシピ追加
+
 PATCH baseurl/{id} body={title(string),making_time(string),serves(string),ingredients(string),cost(string)} -> レシピ丸ごとリプレース
+
 DELETE baseurl/{id} -> 削除する
 
 ## Libraries used:
